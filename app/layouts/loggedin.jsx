@@ -6,8 +6,8 @@ const pop = Poppins({ subsets: ["latin"], weight:"400"});
 
 const LoggedInLayout = ({children}) =>{
     return (
-        <div className={pop.className + "bg-red-500 h-screen max-h-screen w-screen"}>
-            <div className="bg-amber-500/50 h-full w-full">
+        <div className={pop.className + " bg-red-500 h-screen max-h-screen w-screen"}>
+            <div className="bg-white h-full w-full">
                 {children}
             </div>
             <NavBar/>
