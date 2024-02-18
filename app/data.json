@@ -1,0 +1,30 @@
+[
+  {
+    "type": "NGO",
+    "name": "John Doe",
+    "image": "https://c8.alamy.com/comp/2K6628B/ngo-or-non-governmental-organization-to-serve-specific-social-and-political-needs-in-template-hand-drawn-cartoon-flat-illustration-2K6628B.jpg",
+    "phone": "+1234567890",
+    "address": "123 Main St, City, State, ZIP"
+  },
+  {
+    "type": "NGO",
+    "name": "Jane Smith",
+    "image": "https://c8.alamy.com/comp/2K6628B/ngo-or-non-governmental-organization-to-serve-specific-social-and-political-needs-in-template-hand-drawn-cartoon-flat-illustration-2K6628B.jpg",
+    "phone": "+1987654321",
+    "address": "456 Elm St, City, State, ZIP"
+  },
+  {
+    "type": "NGO",
+    "name": "Bob Johnson",
+    "image": "https://c8.alamy.com/comp/2K6628B/ngo-or-non-governmental-organization-to-serve-specific-social-and-political-needs-in-template-hand-drawn-cartoon-flat-illustration-2K6628B.jpg",
+    "phone": "+1122334455",
+    "address": "789 Oak St, City, State, ZIP"
+  },
+  {
+    "type": "NGO",
+    "name": "Humanitarian Aid Organization",
+    "image": "https://c8.alamy.com/comp/2K6628B/ngo-or-non-governmental-organization-to-serve-specific-social-and-political-needs-in-template-hand-drawn-cartoon-flat-illustration-2K6628B.jpg",
+    "phone": "+9876543210",
+    "address": "789 Elm St, City, State, ZIP"
+  }
+]
