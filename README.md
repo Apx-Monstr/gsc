@@ -34,3 +34,24 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+
+
+
+
+
+      <div className="bg-red-500 w-full h-full flex">
+        <div className="bg-green-500">
+          <button className="bg-red-400" onClick={() => setIsModalOpen(true)}>
+            donate now
+          </button>
+        </div>
+        <div className="bg-white w-[30%] overflow-y-scroll">
+          {type === "user" ? (
+            <Donations data={dataNGO} />
+          ) : (
+            <Ngo data={dataDonations} />
+          )}
+        </div>
+      </div>

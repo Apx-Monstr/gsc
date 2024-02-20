@@ -4,7 +4,7 @@ import Donations from "@/components/Donations";
 import Ngo from "@/components/Ngo";
 import Modal1 from "@/components/Modal1";
 
-const type = "user";
+const type = "ngo";
 const dataNGO = [
   {
     type: "NGO",
@@ -218,16 +218,15 @@ const Dashboard = () => {
     });
     setIsModalOpen(false);
   };
+
   return (
     <LoggedInLayout>
       <div className="bg-red-500 w-full h-full flex">
-        {type === "user" && (
-          <div className="flex-1 bg-green-500">
-            <button className="bg-red-400" onClick={() => setIsModalOpen(true)}>
-              donate now
-            </button>
-          </div>
-        )}
+        <div className="flex-1 bg-green-500">
+          {type==="user"&&<button className="bg-red-400" onClick={() => setIsModalOpen(true)}>
+            donate now
+          </button>}
+        </div>
         <div className="bg-white w-[30%] overflow-y-scroll">
           {type === "user" && <Donations data={dataNGO} />}
           {type === "ngo" && <Ngo data={dataDonations} />}
