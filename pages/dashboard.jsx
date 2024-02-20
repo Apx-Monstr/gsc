@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import LoggedInLayout from "@/app/layouts/loggedin";
-import axios from "axios";
-
 import Donations from "@/components/Donations";
 import Ngo from "@/components/Ngo";
-const type = "ngo";
+import Modal1 from "@/components/Modal1";
+
+const type = "user";
 const dataNGO = [
   {
     type: "NGO",
@@ -164,7 +164,7 @@ const dataDonations = [
   },
 ];
 
-const Dashboard = () => {
+// const Dashboard = () => {
   //   const [data, setData] = useState([]);
 
   //   useEffect(() => {
@@ -177,16 +177,71 @@ const Dashboard = () => {
   //         console.error("Error fetching data:", error);
   //       });
   //   }, []);
+const Dashboard = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    title: "",
+    mobileNumber: "",
+    medicine: false,
+    books: false,
+    clothes: false,
+    description: "",
+    addressLine1: "",
+    addressLine2: "",
+    image: null,
+  });
 
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+    setFormData({ ...formData, [name]: inputValue });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setFormData({ ...formData, image: file });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted with data:", formData);
+    setFormData({
+      title: "",
+      mobileNumber: "",
+      medicine: false,
+      books: false,
+      clothes: false,
+      description: "",
+      addressLine1: "",
+      addressLine2: "",
+      image: null,
+    });
+    setIsModalOpen(false);
+  };
   return (
     <LoggedInLayout>
       <div className="bg-red-500 w-full h-full flex">
-        <div className="flex-1 bg-green-500"></div>
+        {type === "user" && (
+          <div className="flex-1 bg-green-500">
+            <button className="bg-red-400" onClick={() => setIsModalOpen(true)}>
+              donate now
+            </button>
+          </div>
+        )}
         <div className="bg-white w-[30%] overflow-y-scroll">
           {type === "user" && <Donations data={dataNGO} />}
           {type === "ngo" && <Ngo data={dataDonations} />}
         </div>
       </div>
+
+      <Modal1
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSubmit}
+        formData={formData}
+        onInputChange={handleInputChange}
+        onImageChange={handleImageChange}
+      />
     </LoggedInLayout>
   );
 };
