@@ -27,18 +27,18 @@ const NavBar = ()=>{
         },
     ]
     return (
+      <>
         <div className="h-28 w-full p-4 fixed bottom-0 left-0 bg-gradient-to-b from-transparent to-gray-200/50">
-            <div className="flex justify-center rounded">
-                <div className="rounded-xl bg-white border  flex">
-                    {
-                        navs.map((nav)=>(
-                            <NavButton key={nav.route} text={nav.name}/>
-                        ))
-                    }
-                </div>
+          <div className="flex justify-center rounded">
+            <div className="rounded-xl bg-white border  flex">
+              {navs.map((nav) => (
+                <NavButton key={nav.route} text={nav.name} />
+              ))}
             </div>
+          </div>
         </div>
-    )
+      </>
+    );
 }
 
 export default NavBar;
