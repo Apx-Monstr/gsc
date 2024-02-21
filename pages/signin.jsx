@@ -6,7 +6,7 @@ import RegisterInput from "@/components/RegisterInput";
 const pop = Poppins({ subsets: ["latin"], weight:"400"})
 import uDonate from "@/public/udonate.png"
 import { useState } from "react";
-import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup,GoogleAuthProvider, getAuth } from "firebase/auth";
 import auth from "@/app/firebase/authConfig";
 const SignIn = () =>{
     const [userType, setUserType] = useState('user');
@@ -14,14 +14,36 @@ const SignIn = () =>{
     const [email, setEmail] = useState('');
     const [psswd, setPsswd] = useState('');
     console.log(auth.currentUser)
-    const emailLogin = async ()=>{
-        try{
-            let res = signInWithEmailAndPassword(auth,email, psswd);
-            console.log(res)
-        }catch(e){
-            console.log(e)
-        }
-    }
+    const googleLogin = () => {
+        signInWithPopup(auth, new GoogleAuthProvider())
+            .then((res) => {
+                // Fetch user data from Realtime Database
+                const userProfileRef = ref(database, `users/${res.user.uid}`);
+                return get(userProfileRef);
+            })
+            .then((userData) => {
+                console.log("User logged in successfully with Google:", userData.val());
+            })
+            .catch((error) => {
+                // Handle login errors
+                console.error(error);
+            });
+    };
+    const emailLogin = (email, password) => {
+        signInWithEmailAndPassword(auth, email, password)
+            .then((res) => {
+                // Fetch user data from Realtime Database
+                const userProfileRef = ref(database, `users/${res.user.uid}`);
+                return get(userProfileRef);
+            })
+            .then((userData) => {
+                console.log("User logged in successfully with email/password:", userData.val());
+            })
+            .catch((error) => {
+                // Handle login errors
+                console.error(error);
+            });
+    };
     // setUserType(user) =>{ userType = user}
     return (
         <div className={pop.className + "  w-full h-screen"}>
@@ -40,7 +62,7 @@ const SignIn = () =>{
                         </div>
                     </div>
                     <div className="flex gap-6 flex-col py-8 pb-6 text-center">
-                        <div className="border rounded py-4 text-base text-center text-blue-700 border-blue-700 cursor-pointer">
+                        <div onClick={googleLogin} className="border rounded py-4 text-base text-center text-blue-700 border-blue-700 cursor-pointer">
                             Continue with Google
                         </div>
                         or
