@@ -1,5 +1,6 @@
 // 'use client';
-
+import {ref, get} from "firebase/database";
+import database from "@/app/firebase/databaseConfig";
 import { Poppins } from "next/font/google";
 import "../app/globals.css"
 import RegisterInput from "@/components/RegisterInput";
@@ -19,10 +20,15 @@ const SignIn = () =>{
             .then((res) => {
                 // Fetch user data from Realtime Database
                 const userProfileRef = ref(database, `users/${res.user.uid}`);
+                sessionStorage.setItem('userID', res.user.uid);
+                // sessionStorage.setItem('userType',)
                 return get(userProfileRef);
             })
             .then((userData) => {
                 console.log("User logged in successfully with Google:", userData.val());
+                sessionStorage.setItem('userType', userData.val()['type'])
+                console.log(sessionStorage.getItem('userType'))
+                console.log(sessionStorage.getItem('userID'))
             })
             .catch((error) => {
                 // Handle login errors
