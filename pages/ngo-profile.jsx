@@ -1,6 +1,56 @@
-import LoggedInLayout from "@/app/layouts/loggedin";
+"use client"
 
-const ngoProfile = () =>{
+import LoggedInLayout from "@/app/layouts/loggedin";
+import auth from "@/app/firebase/authConfig";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { get, ref } from "firebase/database";
+import database from "@/app/firebase/databaseConfig";
+const NgoProfile = () =>{
+    const [authuser, setUser] = useState(null);
+    const [profileData, setProfileData] = useState({
+        address: "",
+        email: "",
+        lastDonated: "",
+        location: ['', ''],
+        mobNo: "",
+        name: "",
+        type: "",
+        userSince: ""
+    });
+    function ProfileData(){
+        const userLoggedIn = Boolean(authuser);
+        if(userLoggedIn){
+            const userProfileRef = ref(database, `users/${authuser.uid}`);
+            get(userProfileRef)
+            .then((res)=>{
+                setProfileData(res.val());
+                // console.log(profileData)
+            })
+        }
+    }
+    function Check() { 
+        auth.onAuthStateChanged((user) => { 
+            if (user) { 
+                // console.log("User Signed In!!"); 
+                setUser(user);
+                // console.log(user)
+            } else { 
+                console.log("User Signed out!!"); 
+                // ... 
+            } 
+        }); 
+    }
+    Check();
+    ProfileData();
+    if (!authuser){
+        return (
+            <div className="bg-red-400">
+                {/* Checking Authentication!!! Redirecting */}
+            </div>
+        )
+    }
+
     return(
         <LoggedInLayout>
             <div className="bg-red-200 w-full h-full flex flex-col">
@@ -45,7 +95,7 @@ Last Donated 2 months ago</div>
                         <p className="font-bold text-xl pl-10">NGO Details</p>
                         <div>
                         <label className="p-10 ">Name :</label>
-                        <input type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="Name"/>
+                        <input value={profileData['name']} type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="Name"/>
                         </div>
                         <div>
                         <label className="p-10 ">Email :</label>
@@ -79,4 +129,4 @@ Last Donated 2 months ago</div>
 }
 
 
-export default ngoProfile;
+export default NgoProfile;

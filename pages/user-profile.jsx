@@ -1,8 +1,61 @@
-import LoggedInLayout from "@/app/layouts/loggedin";
+// "use client"
 
-const userProfile = () =>{
+import LoggedInLayout from "@/app/layouts/loggedin";
+import auth from "@/app/firebase/authConfig";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { get, ref } from "firebase/database";
+import database from "@/app/firebase/databaseConfig";
+import firebase from "firebase/app"
+const UserProfile = () =>{
+    // const [user, setUID] = useState(null);
+    // const [type, setType] = useState(null);
+    const [authuser, setUser] = useState(null);
+    const [profileData, setProfileData] = useState({
+        address: "",
+        email: "",
+        lastDonated: "",
+        location: ['', ''],
+        mobNo: "",
+        name: "",
+        type: "",
+        userSince: ""
+    });
+    function ProfileData(){
+        const userLoggedIn = Boolean(authuser);
+        if(userLoggedIn){
+            const userProfileRef = ref(database, `users/${authuser.uid}`);
+            get(userProfileRef)
+            .then((res)=>{
+                setProfileData(res.val());
+                // console.log(profileData)
+            })
+        }
+    }
+    function Check() { 
+        auth.onAuthStateChanged((user) => { 
+            if (user) { 
+                // console.log("User Signed In!!"); 
+                setUser(user);
+                // console.log(user)
+            } else { 
+                console.log("User Signed out!!"); 
+                // ... 
+            } 
+        }); 
+    }
+    Check();
+    ProfileData();
+    if (!authuser){
+        return (
+            <div className="bg-red-400">
+                {/* Checking Authentication!!! Redirecting */}
+            </div>
+        )
+    }
     return(
         <LoggedInLayout>
+            {/* {user.uid} */}
             <div className="bg-red-200 w-full h-full flex flex-col">
                 <div className="bg-blue-300 w-full h-52 relative">
                 <div className="rounded-full h-36 w-36 bg-red-200 item-left m-32 my-36 z-50 absolute" ></div>
@@ -28,23 +81,23 @@ Last Donated 2 months ago</div>
                         <p className="font-bold text-xl pl-10">User Details</p>
                         <div>
                         <label className="p-10 ">Name :</label>
-                        <input type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Name"/>
+                        <input value={profileData['name']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Name"/>
                         </div>
                         <div>
                         <label className="p-10 ">Email :</label>
-                        <input type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Email"/>
+                        <input value={profileData['email']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Email"/>
                         </div>
                         <div>
-                        <label className="p-10 ">Gender :</label>
-                        <input type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Gender"/>
+                        <label className="p-10 ">Address :</label>
+                        <input value={profileData['address']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Gender"/>
                         </div>
                         <div>
-                        <label className="p-10 ">Birthday :</label>
-                        <input type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="DOB"/>
+                        <label className="p-10 ">Mobile No :</label>
+                        <input value={profileData['mobNo']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="DOB"/>
                         </div>
                         <div>
                         <label className="p-10 ">Phone :</label>
-                        <input type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Phone Number"/>
+                        <input value={profileData['userSince']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Phone Number"/>
                         </div>
                     </div>
                 </div>
@@ -53,4 +106,4 @@ Last Donated 2 months ago</div>
     )
 }
 
-export default userProfile;
+export default UserProfile;
