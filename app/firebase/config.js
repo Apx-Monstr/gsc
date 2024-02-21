@@ -1,6 +1,4 @@
-import firebase, { initializeApp } from 'firebase/app';
-import 'firebase/auth';
-
+import { initializeApp, getApps } from "firebase/app";
 const firebaseConfig = {
     apiKey: "AIzaSyC3IRbmbwoxyZdwt6I6iUdVUuBGp0pRGXg",
     authDomain: "udonate-gsc.firebaseapp.com",
@@ -11,6 +9,7 @@ const firebaseConfig = {
     appId: "1:557505037201:web:9c961924c4ae0146d89030",
     measurementId: "G-0HM628LN9N"
   };
+// Initialize Firebase
+let fbApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-const fapp = initializeApp(firebaseConfig);
-export const auth = firebase.auth();
+export default fbApp;
