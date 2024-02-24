@@ -3,8 +3,16 @@ import LoggedInLayout from "@/app/layouts/loggedin";
 import Donations from "@/components/Donations";
 import Ngo from "@/components/Ngo";
 import Modal1 from "@/components/Modal1";
-
-const type = "user";
+import { push, ref, set, get } from "firebase/database";
+import database from "@/app/firebase/databaseConfig";
+import auth from "@/app/firebase/authConfig";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import firebase from "firebase/app";
+import storage from "@/app/firebase/storageconfig";
+import {ref as sref, uploadBytes} from "firebase/storage";
+// import { storage, ref as storageRef, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+// const type = "user";
 const dataNGO = [
   {
     type: "NGO",
@@ -164,6 +172,17 @@ const dataDonations = [
   },
 ];
 
+function generateRandomId() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomId = '';
+  
+    for (let i = 0; i < 16; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomId += characters.charAt(randomIndex);
+    }
+  
+    return randomId;
+  }
 // const Dashboard = () => {
   //   const [data, setData] = useState([]);
 
@@ -179,6 +198,19 @@ const dataDonations = [
   //   }, []);
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [type, setType] = useState('user');
+  const [profileData, setProfileData] = useState({
+    address: "",
+    email: "",
+    lastDonated: "",
+    location: ['', ''],
+    mobNo: "",
+    name: "",
+    type: "",
+    userSince: ""
+});
+  const [authuser, setUser] = useState(null);
+
   const [formData, setFormData] = useState({
     title: "",
     mobileNumber: "",
@@ -191,6 +223,65 @@ const Dashboard = () => {
     image: null,
   });
 
+    function ProfileData(){
+        const userLoggedIn = Boolean(authuser);
+        if(userLoggedIn){
+            const userProfileRef = ref(database, `users/${authuser.uid}`);
+            get(userProfileRef)
+            .then((res)=>{
+                setProfileData(res.val());
+                setType(profileData['type'])
+                console.log(profileData)
+                console.log(profileData['type'])
+            })
+        }
+    }
+    // function Check() { 
+    //     auth.onAuthStateChanged((user) => { 
+    //         if (user) { 
+    //             console.log("User Signed In!!"); 
+    //             setUser(user);
+    //             // console.log(user)
+    //         } else { 
+    //             console.log("User Signed out!!"); 
+    //             // ... 
+    //         } 
+    //     }); 
+    // }
+    // Check();
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            // My method
+            if(user){
+                console.log("User Signed In");
+                setUser(user);
+                const userProfileRef = ref(database, `users/${user.uid}`);
+            get(userProfileRef)
+            .then((res)=>{
+                const data = res.val()
+                setProfileData(data);
+                setType(res.val()['type'])
+                // console.log(data);
+                setFormData({
+                    title: data['email'],
+                    mobileNumber: data['mobNo'],
+                    medicine: false,
+                    books: false,
+                    clothes: false,
+                    description: data['email'],
+                    addressLine1: data['address'],
+                    addressLine2: "",
+                    image: null,
+                })
+            })
+          }
+        });
+    
+        // Just return the unsubscribe function.  React will call it when it's
+        // no longer needed.
+        return unsubscribe;
+      }, []);
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const inputValue = type === "checkbox" ? checked : value;
@@ -202,20 +293,77 @@ const Dashboard = () => {
     setFormData({ ...formData, image: file });
   };
 
+  async function uploadFilesToStorage(files) {
+    console.log(files);
+    files = [files];
+    console.log(files)
+
+    files.map(async (file)=>{
+      const storageRef = sref(storage, `images/${file.name}`);
+      uploadBytes(storageRef, file).then((snapshot)=>{
+        console.log("File Uploaded Successfully")
+      })
+    })
+
+    // const storagePromises = files.map(async (file) => {
+    //   return new Promise((resolve, reject) => {
+    //     const storageRef = ref(storage, `images/${file.name}`);
+  
+    //     storageRef.put(file).then((snapshot) => {
+    //       // Get the download URL of the uploaded image
+    //       console.log("File Uploaded")
+    //     //   storageRef.getDownloadURL().then((downloadURL) => {
+    //     //     resolve({ name: file.name, url: downloadURL });
+    //     //   }).catch((error) => {
+    //     //     reject(error);
+    //     //   });
+    //     // }).catch((error) => {
+    //     //   reject(error);
+    //     });
+    //   });
+    // });
+  
+    // try {
+    //   const results = await Promise.all(storagePromises);
+    //   console.log("Upload successful:", results);
+    // } catch (error) {
+    //   console.error("Error uploading files:", error);
+    // }
+  }
+
+  const uploadFormData = async (formData) => {
+    try {
+      // Upload data to Firebase Realtime Database
+      const did = generateRandomId()
+      const dbRef = ref(database, `donations/${did}`);
+      const userRef = ref(database, `users/${authuser.uid}/donations`)
+      formData['id'] = did
+      formData['uploadedBy'] = authuser.uid;
+      await set(dbRef, formData);
+      await push(userRef, did)
+      uploadFilesToStorage(formData['image'])
+      // console.log(formData)
+  
+      console.log("Data and image uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading data and image:", error);
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted with data:", formData);
+    // console.log("Form submitted with data:", formData);
     setFormData({
       title: "",
-      mobileNumber: "",
+      mobileNumber: profileData['mobno'],
       medicine: false,
       books: false,
       clothes: false,
       description: "",
-      addressLine1: "",
+      addressLine1: profileData['address'],
       addressLine2: "",
       image: null,
     });
+    uploadFormData(formData)
     setIsModalOpen(false);
   };
 

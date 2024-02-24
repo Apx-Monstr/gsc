@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 
 const Modal1 = ({
@@ -9,7 +11,8 @@ const Modal1 = ({
   onImageChange,
 
 }) => {
-    console.log("formData:", formData);
+    // console.log("formData:", formData);
+    
   return (
     
     isOpen && (
@@ -96,6 +99,7 @@ const Modal1 = ({
             <input
               type="file"
               onChange={onImageChange}
+              accept="image/*"
               multiple // Allow multiple image selection
               className="w-full mb-2 p-2 border border-gray-300 rounded"
             />

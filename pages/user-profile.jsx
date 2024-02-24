@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { get, ref } from "firebase/database";
 import database from "@/app/firebase/databaseConfig";
-import firebase from "firebase/app"
+import firebase from "firebase/app";
+import { onAuthStateChanged } from "firebase/auth";
 const UserProfile = () =>{
     // const [user, setUID] = useState(null);
     // const [type, setType] = useState(null);
@@ -32,19 +33,32 @@ const UserProfile = () =>{
             })
         }
     }
-    function Check() { 
-        auth.onAuthStateChanged((user) => { 
-            if (user) { 
-                // console.log("User Signed In!!"); 
-                setUser(user);
-                // console.log(user)
-            } else { 
-                console.log("User Signed out!!"); 
-                // ... 
-            } 
-        }); 
-    }
-    Check();
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          // My method
+          if(user){
+              console.log("User Signed In");
+              setUser(user)
+          }
+        });
+    
+        // Just return the unsubscribe function.  React will call it when it's
+        // no longer needed.
+        return unsubscribe;
+      }, []);
+    // function Check() { 
+    //     auth.onAuthStateChanged((user) => { 
+    //         if (user) { 
+    //             console.log("User Signed In!!"); 
+    //             setUser(user);
+    //             // console.log(user)
+    //         } else { 
+    //             console.log("User Signed out!!"); 
+    //             // ... 
+    //         } 
+    //     }); 
+    // }
+    // Check();
     ProfileData();
     if (!authuser){
         return (
