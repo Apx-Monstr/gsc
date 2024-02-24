@@ -21,39 +21,37 @@ const Register = () =>{
     const googleRegister = () => {
         signInWithPopup(auth, new GoogleAuthProvider())
             .then((res) => {
-                // Check if the user is new
                 if (getAdditionalUserInfo(res).isNewUser) {
-                    // Set custom user claims (assign a role)
                     let date = new Date().toLocaleDateString();
                     const userProfileRef = ref(database, `users/${res.user.uid}`);
                     if (userType === 'user') {
                         set(userProfileRef, {
                             name: "User Name",
-                            address: '',
-                            mobNo: '',
+                            add: '',
+                            mno: '',
                             donations: [],
                             userSince: date,
                             lastDonated: '',
                             email: res.user.email,
                             type: userType,
-                            location: ['', '']
+                            loc: ['', '']
                         });
                     } else if (userType === 'ngo') {
                         set(userProfileRef, {
                             name: "NGO Name",
-                            address: '',
-                            mobNo: '',
-                            donation: [],
+                            add: '',
+                            mno: '',
+                            donations: [],
                             userSince: date,
                             lastAccepted: '',
                             email: res.user.email,
                             type: userType,
-                            image: '',
+                            img: '',
                             bgImg: '',
                             insta: '',
                             wp: '',
-                            twitter: '',
-                            location: ['', '']
+                            twtr: '',
+                            loc: ['', '']
                         });
                     }
                     console.log("User registered successfully with Google");

@@ -1,5 +1,5 @@
 "use client"
-
+import { onAuthStateChanged } from "firebase/auth";
 import LoggedInLayout from "@/app/layouts/loggedin";
 import auth from "@/app/firebase/authConfig";
 import { useEffect, useState } from "react";
@@ -9,44 +9,46 @@ import database from "@/app/firebase/databaseConfig";
 const NgoProfile = () =>{
     const [authuser, setUser] = useState(null);
     const [profileData, setProfileData] = useState({
-        address: "",
-        email: "",
-        lastDonated: "",
-        location: ['', ''],
-        mobNo: "",
-        name: "",
-        type: "",
-        userSince: ""
+        name: "NGO Name",
+        add: '',
+        mno: '',
+        donations: [],
+        userSince: '',
+        lastAccepted: '',
+        email: '',
+        type: 'ngo',
+        img: '',
+        bgImg: '',
+        insta: '',
+        wp: '',
+        twtr: '',
+        loc: ['', '']
     });
-    function ProfileData(){
-        const userLoggedIn = Boolean(authuser);
-        if(userLoggedIn){
-            const userProfileRef = ref(database, `users/${authuser.uid}`);
-            get(userProfileRef)
-            .then((res)=>{
-                setProfileData(res.val());
-                // console.log(profileData)
-            })
-        }
-    }
-    function Check() { 
-        auth.onAuthStateChanged((user) => { 
-            if (user) { 
-                // console.log("User Signed In!!"); 
-                setUser(user);
-                // console.log(user)
-            } else { 
-                console.log("User Signed out!!"); 
-                // ... 
-            } 
-        }); 
-    }
-    Check();
-    ProfileData();
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          // My method
+          if(user){
+              console.log("User Signed In");
+              setUser(user);
+              const userRef = ref(database, `users/${user.uid}`)
+              get(userRef)
+              .then((res)=>{
+                setProfileData(res.val())
+                // console.log(res.val())
+              })
+          }
+        });
+    
+        // Just return the unsubscribe function.  React will call it when it's
+        // no longer needed.
+        return unsubscribe;
+    }, []);
+
+
     if (!authuser){
         return (
-            <div className="bg-red-400">
-                {/* Checking Authentication!!! Redirecting */}
+            <div className="flex text-center w-full">
+                Checking Authentication!!! Redirecting
             </div>
         )
     }
@@ -99,27 +101,27 @@ Last Donated 2 months ago</div>
                         </div>
                         <div>
                         <label className="p-10 ">Email :</label>
-                        <input type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="Email"/>
+                        <input value={profileData['name']} type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="Email"/>
                         </div>
                         <div>
                         <label className="p-10 ">Gender :</label>
-                        <input type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="Gender"/>
+                        <input value={profileData['name']} type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="Gender"/>
                         </div>
                         <div>
                         <label className="p-10 ">Birthday :</label>
-                        <input type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="DOB"/>
+                        <input value={profileData['name']} type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="DOB"/>
                         </div>
                         <div>
                         <label className="p-10 ">Phone :</label>
-                        <input type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="Phone Number"/>
+                        <input value={profileData['name']} type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="Phone Number"/>
                         </div>
                         <div>
                         <label className="p-10 ">Location :</label>
-                        <input type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="Location"/>
+                        <input value={profileData['name']} type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="Location"/>
                         </div>
                         <div>
                         <label className="p-10 ">About :</label>
-                        <input type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="About"/>
+                        <input value={profileData['name']} type="text" class="text-sm rounded-lg w-96 p-1 m-2" placeholder="About"/>
                         </div>
                     </div>
                 </div>

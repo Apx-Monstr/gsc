@@ -13,14 +13,15 @@ const UserProfile = () =>{
     // const [type, setType] = useState(null);
     const [authuser, setUser] = useState(null);
     const [profileData, setProfileData] = useState({
-        address: "",
-        email: "",
-        lastDonated: "",
-        location: ['', ''],
-        mobNo: "",
-        name: "",
-        type: "",
-        userSince: ""
+        name: "User Name",
+        add: '',
+        mno: '',
+        donations: [],
+        userSince: '',
+        lastDonated: '',
+        email: '',
+        type: 'user',
+        loc: ['', '']
     });
     function ProfileData(){
         const userLoggedIn = Boolean(authuser);
@@ -62,8 +63,8 @@ const UserProfile = () =>{
     ProfileData();
     if (!authuser){
         return (
-            <div className="bg-red-400">
-                {/* Checking Authentication!!! Redirecting */}
+            <div className="flex text-center w-full">
+                Checking Authentication!!! Redirecting
             </div>
         )
     }
@@ -103,11 +104,11 @@ Last Donated 2 months ago</div>
                         </div>
                         <div>
                         <label className="p-10 ">Address :</label>
-                        <input value={profileData['address']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Gender"/>
+                        <input value={profileData['add']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Gender"/>
                         </div>
                         <div>
                         <label className="p-10 ">Mobile No :</label>
-                        <input value={profileData['mobNo']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="DOB"/>
+                        <input value={profileData['mno']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="DOB"/>
                         </div>
                         <div>
                         <label className="p-10 ">Phone :</label>
