@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import firebase from "firebase/app";
 import storage from "@/app/firebase/storageconfig";
-import {ref as sref, uploadBytes} from "firebase/storage";
+import {ref as sref, uploadBytes, getDownloadURL} from "firebase/storage";
 // import { storage, ref as storageRef, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 // const type = "user";
 const dataNGO = [
@@ -183,104 +183,63 @@ function generateRandomId() {
   
     return randomId;
   }
-// const Dashboard = () => {
-  //   const [data, setData] = useState([]);
-
-  //   useEffect(() => {
-  //     axios
-  //       .get("../app/data.json")
-  //       .then((response) => {
-  //         setData(response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching data:", error);
-  //       });
-  //   }, []);
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [type, setType] = useState('user');
   const [profileData, setProfileData] = useState({
-    address: "",
-    email: "",
-    lastDonated: "",
-    location: ['', ''],
-    mobNo: "",
-    name: "",
-    type: "",
-    userSince: ""
-});
+    // address: "",
+    // email: "",
+    // lastDonated: "",
+    // location: ['', ''],
+    // mobNo: "",
+    // name: "",
+    // type: "",
+    // userSince: ""
+  });
   const [authuser, setUser] = useState(null);
 
   const [formData, setFormData] = useState({
-    title: "",
-    mobileNumber: "",
-    medicine: false,
-    books: false,
-    clothes: false,
-    description: "",
-    addressLine1: "",
-    addressLine2: "",
-    image: null,
+    ttl: '',
+    mno: '',
+    med: false,
+    book: false,
+    clh: false,
+    desc: '',
+    add: '',
+    img: [],
   });
 
-    function ProfileData(){
-        const userLoggedIn = Boolean(authuser);
-        if(userLoggedIn){
-            const userProfileRef = ref(database, `users/${authuser.uid}`);
-            get(userProfileRef)
-            .then((res)=>{
-                setProfileData(res.val());
-                setType(profileData['type'])
-                console.log(profileData)
-                console.log(profileData['type'])
-            })
+  useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+          // My method
+          if(user){
+              console.log("User Signed In");
+              setUser(user);
+              const userProfileRef = ref(database, `users/${user.uid}`);
+          get(userProfileRef)
+          .then((res)=>{
+              const data = res.val()
+              setProfileData(data);
+              setType(res.val()['type'])
+              // console.log(data);
+              setFormData({
+                  ttl: data['email'],
+                  mno: data['mno'],
+                  med: false,
+                  book: false,
+                  clh: false,
+                  desc: data['email'],
+                  add: data['add'],
+                  img: [],
+              })
+          })
         }
-    }
-    // function Check() { 
-    //     auth.onAuthStateChanged((user) => { 
-    //         if (user) { 
-    //             console.log("User Signed In!!"); 
-    //             setUser(user);
-    //             // console.log(user)
-    //         } else { 
-    //             console.log("User Signed out!!"); 
-    //             // ... 
-    //         } 
-    //     }); 
-    // }
-    // Check();
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            // My method
-            if(user){
-                console.log("User Signed In");
-                setUser(user);
-                const userProfileRef = ref(database, `users/${user.uid}`);
-            get(userProfileRef)
-            .then((res)=>{
-                const data = res.val()
-                setProfileData(data);
-                setType(res.val()['type'])
-                // console.log(data);
-                setFormData({
-                    title: data['email'],
-                    mobileNumber: data['mobNo'],
-                    medicine: false,
-                    books: false,
-                    clothes: false,
-                    description: data['email'],
-                    addressLine1: data['address'],
-                    addressLine2: "",
-                    image: null,
-                })
-            })
-          }
-        });
-    
-        // Just return the unsubscribe function.  React will call it when it's
-        // no longer needed.
-        return unsubscribe;
-      }, []);
+      });
+
+      // Just return the unsubscribe function.  React will call it when it's
+      // no longer needed.
+      return unsubscribe;
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -290,81 +249,87 @@ const Dashboard = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setFormData({ ...formData, image: file });
+    let images = formData.img
+    images.push(file)
+    console.log("Images" , images)
+    setFormData({ ...formData, img: images });
   };
 
-  async function uploadFilesToStorage(files) {
-    console.log(files);
-    files = [files];
-    console.log(files)
-
+  async function uploadFilesToStorage() {
+    let files = formData['img'];
+    // files = [files];
+    let imgnames = [];
     files.map(async (file)=>{
-      const storageRef = sref(storage, `images/${file.name}`);
+      let fname = generateRandomId()
+      if(file){
+        fname = fname + file.name.split(".").reverse()[0]
+      }
+      // fname = fname + file.name.split(".").reverse()[0]
+      const storageRef = sref(storage, `images/${fname}`);
       uploadBytes(storageRef, file).then((snapshot)=>{
-        console.log("File Uploaded Successfully")
+        return getDownloadURL(storageRef);
+        
+      }).then((downloadURL) => {
+        console.log("File Uploaded Successfully. Download URL:", downloadURL);
+        imgnames.push({
+          fname: fname,
+          url: downloadURL,
+        });
+        formData['img'] = imgnames;
+        console.log(formData['img'])
+        uploadFormData();
+        setIsModalOpen(false);
+        setFormData({
+          ttl: profileData['email'],
+          mno: profileData['mno'],
+          med: false,
+          book: false,
+          clh: false,
+          desc: profileData['email'],
+          add: profileData['add'],
+          img: [],
+        });
       })
     })
-
-    // const storagePromises = files.map(async (file) => {
-    //   return new Promise((resolve, reject) => {
-    //     const storageRef = ref(storage, `images/${file.name}`);
-  
-    //     storageRef.put(file).then((snapshot) => {
-    //       // Get the download URL of the uploaded image
-    //       console.log("File Uploaded")
-    //     //   storageRef.getDownloadURL().then((downloadURL) => {
-    //     //     resolve({ name: file.name, url: downloadURL });
-    //     //   }).catch((error) => {
-    //     //     reject(error);
-    //     //   });
-    //     // }).catch((error) => {
-    //     //   reject(error);
-    //     });
-    //   });
-    // });
-  
-    // try {
-    //   const results = await Promise.all(storagePromises);
-    //   console.log("Upload successful:", results);
-    // } catch (error) {
-    //   console.error("Error uploading files:", error);
-    // }
   }
 
-  const uploadFormData = async (formData) => {
+  const uploadFormData = async () => {
     try {
       // Upload data to Firebase Realtime Database
+      // uploadFilesToStorage(formData['img'])
       const did = generateRandomId()
       const dbRef = ref(database, `donations/${did}`);
       const userRef = ref(database, `users/${authuser.uid}/donations`)
       formData['id'] = did
-      formData['uploadedBy'] = authuser.uid;
+      formData['by'] = authuser.uid;
+      formData['staus'] = 'listed';
+      formData['to'] = '';
+      formData['isAngel'] = false
+      console.log(formData)
       await set(dbRef, formData);
       await push(userRef, did)
-      uploadFilesToStorage(formData['image'])
-      // console.log(formData)
-  
+      console.log(formData)
+
       console.log("Data and image uploaded successfully!");
     } catch (error) {
-      console.error("Error uploading data and image:", error);
+      console.error("Error uploading data and img:", error);
     }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log("Form submitted with data:", formData);
-    setFormData({
-      title: "",
-      mobileNumber: profileData['mobno'],
-      medicine: false,
-      books: false,
-      clothes: false,
-      description: "",
-      addressLine1: profileData['address'],
-      addressLine2: "",
-      image: null,
-    });
-    uploadFormData(formData)
-    setIsModalOpen(false);
+    // uploadFormData(formData)
+    uploadFilesToStorage()
+    // setFormData({
+    //   ttl: profileData['email'],
+    //   mno: profileData['mno'],
+    //   med: false,
+    //   book: false,
+    //   clh: false,
+    //   desc: profileData['email'],
+    //   add: profileData['add'],
+    //   img: [],
+    // });
   };
 
   return (

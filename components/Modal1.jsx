@@ -27,16 +27,16 @@ const Modal1 = ({
           <form onSubmit={onSubmit}>
             <input
               type="text"
-              name="title"
-              value={formData.title}
+              name="ttl"
+              value={formData.ttl}
               onChange={onInputChange}
               placeholder="Donation Title"
               className="w-full mb-2 p-2 border border-gray-300 rounded"
             />
             <input
               type="text"
-              name="mobileNumber"
-              value={formData.mobileNumber}
+              name="mno"
+              value={formData.mno}
               onChange={onInputChange}
               placeholder="Mobile Number"
               className="w-full mb-2 p-2 border border-gray-300 rounded"
@@ -48,8 +48,8 @@ const Modal1 = ({
               <label className="mr-2">
                 <input
                   type="checkbox"
-                  name="medicine"
-                  checked={formData.medicine}
+                  name="med"
+                  checked={formData.med}
                   onChange={onInputChange}
                 />
                 Medicine
@@ -57,8 +57,8 @@ const Modal1 = ({
               <label className="mr-2">
                 <input
                   type="checkbox"
-                  name="books"
-                  checked={formData.books}
+                  name="book"
+                  checked={formData.book}
                   onChange={onInputChange}
                 />
                 Books
@@ -66,36 +66,36 @@ const Modal1 = ({
               <label>
                 <input
                   type="checkbox"
-                  name="clothes"
-                  checked={formData.clothes}
+                  name="clh"
+                  checked={formData.clh}
                   onChange={onInputChange}
                 />
                 Clothes
               </label>
             </div>
             <textarea
-              name="description"
-              value={formData.description}
+              name="desc"
+              value={formData.desc}
               onChange={onInputChange}
               placeholder="Description"
               className="w-full mb-2 p-2 border border-gray-300 rounded"
             />
             <input
               type="text"
-              name="addressLine1"
-              value={formData.addressLine1}
+              name="add"
+              value={formData.add}
               onChange={onInputChange}
               placeholder="Address Line 1"
               className="w-full mb-2 p-2 border border-gray-300 rounded"
             />
-            <input
+            {/* <input
               type="text"
               name="addressLine2"
               value={formData.addressLine2}
               onChange={onInputChange}
               placeholder="Address Line 2"
               className="w-full mb-2 p-2 border border-gray-300 rounded"
-            />
+            /> */}
             <input
               type="file"
               onChange={onImageChange}
