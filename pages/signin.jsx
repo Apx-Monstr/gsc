@@ -14,7 +14,7 @@ const SignIn = () =>{
     const [errMsg, setErrMsg] = useState('');
     const [email, setEmail] = useState('');
     const [psswd, setPsswd] = useState('');
-    console.log(auth.currentUser)
+    // console.log(auth.currentUser)
     const googleLogin = () => {
         signInWithPopup(auth, new GoogleAuthProvider())
             .then((res) => {
@@ -35,8 +35,8 @@ const SignIn = () =>{
                 console.error(error);
             });
     };
-    const emailLogin = (email, password) => {
-        signInWithEmailAndPassword(auth, email, password)
+    const emailLogin = () => {
+        signInWithEmailAndPassword(auth, email, psswd)
             .then((res) => {
                 // Fetch user data from Realtime Database
                 const userProfileRef = ref(database, `users/${res.user.uid}`);
