@@ -1,13 +1,102 @@
 import LoggedInLayout from "@/app/layouts/loggedin";
-
+import { useState , useEffect} from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import auth from "@/app/firebase/authConfig";
+import database from "@/app/firebase/databaseConfig";
+import { ref, get } from "firebase/database";
 const Recents = () =>{
+    const [donationIDs, setDonationIDs] = useState(null);
+    const [user, setUser] = useState('');
+    const [donations, setDonations] = useState([]);
+    // const [type, setType] = useState(null);
+    // useEffect(() => {
+    //     const unsubscribe = onAuthStateChanged(auth, (user) => {
+    //         // My method
+    //         if(user){
+    //             console.log("User Signed In");
+    //             setUser(user);
+    //             const userDonationsRef = ref(database, `users/${user.uid}/donations`);
+    //         get(userDonationsRef)
+    //         .then((res)=>{
+    //             let data = res.val();
+    //             data = Object.values(data);
+    //             data.map((id)=>{
+    //                 const donationRef = ref(database, `donations/${id}`);
+    //                 get(donationRef)
+    //                 .then((res)=>{
+    //                     console.log(donations);
+    //                     let existingData = donations;
+    //                     existingData.push(res.val())
+    //                     // console.log(res.val());
+    //                     setDonations(existingData);
+    //                 })
+    //             })
+    //             setDonationIDs(Object.values(data));
+    //         })
+    //       }
+    //     });
+    //     return unsubscribe;
+    // }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const user = await new Promise((resolve, reject) => {
+              const unsubscribe = onAuthStateChanged(auth, (user) => {
+                unsubscribe();
+                resolve(user);
+              });
+            });
+    
+            if (user) {
+              console.log('User Signed In');
+              setUser(user);
+    
+              const userDonationsRef = ref(database, `users/${user.uid}/donations`);
+              const userDonationsSnapshot = await get(userDonationsRef);
+              const userDonationsData = userDonationsSnapshot.val();
+              const donationIds = Object.values(userDonationsData);
+    
+              setDonationIDs(donationIds);
+    
+              const fetchDonationData = async (id) => {
+                const donationRef = ref(database, `donations/${id}`);
+                const donationSnapshot = await get(donationRef);
+                const donationData = donationSnapshot.val();
+                return donationData;
+              };
+    
+              const updatedDonations = await Promise.all(
+                donationIds.map(async (id) => {
+                  const donationData = await fetchDonationData(id);
+                  return donationData;
+                })
+              );
+    
+              setDonations(updatedDonations);
+            }
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+        fetchData();
+        console.log(donations)
+  }, []);
+
+
     return(
         <LoggedInLayout>
             <div className="bg-gray-400 w-full h-full mb-24">
                 <div className="bg-red-100 text-xl">
-                    Udonate
+                    Udonate {donationIDs}
+                    {/* {donations} */}
+                    {/* {
+                        donations.map((data)=>(
+                            <h1 key={data.id}>{data.title}  {data.id}</h1>
+                        ))
+                    } */}
                 </div>
-                <div className="bg-green-300    ">
+                <div className="bg-green-300">
                     <h1 className="px-16 py-4 text-2xl">Recent Donations</h1>
                     <div className="flex gap-10 pb-8 px-16 bg-red-600 overflow-x-auto">
                         <div className="bg-blue-200 w-96 h-64 rounded-lg flex flex-col p-6 justify-between">
