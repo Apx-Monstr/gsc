@@ -1,11 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import clothImage from "../app/images/cloth.svg";
 import medicineImage from "../app/images/medicine.svg";
 import bookImage from "../app/images/book.svg";
 import location from "../app/images/location.svg";
 import Modal from "./Modal";
-
-const Ngo = ({ data }) => {
+import { ref, get } from "firebase/database";
+import database from "@/app/firebase/databaseConfig";
+const Ngo = ({ type }) => {
+  const [data, setDonations] = useState([])
+  useEffect(()=>{
+    const fetchDonations = async ()=>{
+      if (type === 'ngo'){
+        try{
+          const donationsRef = ref(database, 'donations');
+          get(donationsRef)
+          .then((res)=>{
+            console.log(res.val());
+            setDonations(Object.values(res.val()));
+          })
+        }
+        catch (error){
+          console.log(error)
+        }
+      }
+    }
+    fetchDonations();
+  }, [])
+  console.log("Data of Donations ", data)
   const [showModal, setShowModal] = useState(false);
   const [selectedNgo, setSelectedNgo] = useState(null);
 

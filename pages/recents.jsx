@@ -88,33 +88,63 @@ const Recents = () =>{
         <LoggedInLayout>
             <div className="bg-gray-400 w-full h-full mb-24">
                 <div className="bg-red-100 text-xl">
-                    Udonate {donationIDs}
+                    Udonate 
+                    {/* {donationIDs} */}
                     {/* {donations} */}
-                    {/* {
-                        donations.map((data)=>(
-                            <h1 key={data.id}>{data.title}  {data.id}</h1>
+                    {
+                        donations.filter(item => item.staus==='listed'||item.staus==='accepted').map((data)=>(
+                            <h1 key={data.id}>{data.staus} {data.id}</h1>
                         ))
-                    } */}
+                    }
                 </div>
                 <div className="bg-green-300">
                     <h1 className="px-16 py-4 text-2xl">Recent Donations</h1>
                     <div className="flex gap-10 pb-8 px-16 bg-red-600 overflow-x-auto">
-                        <div className="bg-blue-200 w-96 h-64 rounded-lg flex flex-col p-6 justify-between">
-                            <div className="flex flex-col gap-5" >
-                                <h2 className="text-xl">Harry Potter book series</h2>
-                                <div>
-                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3 14.625V3.375C3 2.87772 3.19754 2.40081 3.54917 2.04917C3.90081 1.69754 4.37772 1.5 4.875 1.5H15V16.5H4.875C4.37772 16.5 3.90081 16.3025 3.54917 15.9508C3.19754 15.5992 3 15.1223 3 14.625ZM3 14.625C3 14.1277 3.19754 13.6508 3.54917 13.2992C3.90081 12.9475 4.37772 12.75 4.875 12.75H15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M6 9.75L9 4.5L12 9.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M6.82495 8.25H11.1" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
+                        {
+                            donations.filter(item => item.staus === 'listed' || item.staus === 'accepted').map((donation)=>(
+                                <div key={donation.id} className="bg-blue-200 w-96 h-64 rounded-lg flex flex-col p-6 justify-between">
+                                    <div className="flex flex-col gap-5" >
+                                        <h2 className="text-xl">{donation.ttl}</h2>
+                                        <div className="flex gap-3">
+                                            {
+                                                donation.book &&
+                                                <div>
+                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M3 14.625V3.375C3 2.87772 3.19754 2.40081 3.54917 2.04917C3.90081 1.69754 4.37772 1.5 4.875 1.5H15V16.5H4.875C4.37772 16.5 3.90081 16.3025 3.54917 15.9508C3.19754 15.5992 3 15.1223 3 14.625ZM3 14.625C3 14.1277 3.19754 13.6508 3.54917 13.2992C3.90081 12.9475 4.37772 12.75 4.875 12.75H15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M6 9.75L9 4.5L12 9.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M6.82495 8.25H11.1" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                            }
+                                            {
+                                                donation.clh &&
+                                                <div>
+                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M3 14.625V3.375C3 2.87772 3.19754 2.40081 3.54917 2.04917C3.90081 1.69754 4.37772 1.5 4.875 1.5H15V16.5H4.875C4.37772 16.5 3.90081 16.3025 3.54917 15.9508C3.19754 15.5992 3 15.1223 3 14.625ZM3 14.625C3 14.1277 3.19754 13.6508 3.54917 13.2992C3.90081 12.9475 4.37772 12.75 4.875 12.75H15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M6 9.75L9 4.5L12 9.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M6.82495 8.25H11.1" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                            }
+                                            {
+                                                donation.med &&
+                                                <div>
+                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M3 14.625V3.375C3 2.87772 3.19754 2.40081 3.54917 2.04917C3.90081 1.69754 4.37772 1.5 4.875 1.5H15V16.5H4.875C4.37772 16.5 3.90081 16.3025 3.54917 15.9508C3.19754 15.5992 3 15.1223 3 14.625ZM3 14.625C3 14.1277 3.19754 13.6508 3.54917 13.2992C3.90081 12.9475 4.37772 12.75 4.875 12.75H15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M6 9.75L9 4.5L12 9.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M6.82495 8.25H11.1" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div className="bg-yellow-200 rounded-md w-32 flex justify-center place-content-center ">
+                                        {donation.staus}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="bg-yellow-200 rounded-md w-32 flex justify-center place-content-center ">
-                                Listed
-                            </div>
-                        </div>
-                        <div className="bg-blue-200 w-96 h-64 rounded-lg flex flex-col p-6 justify-between">
+                            ))
+                        }
+                        {/* <div className="bg-blue-200 w-96 h-64 rounded-lg flex flex-col p-6 justify-between">
                             <div className="flex flex-col gap-5" >
                                 <h2 className="text-xl">Harry Potter book series</h2>
                                 <div>
@@ -158,9 +188,9 @@ const Recents = () =>{
                             <div className="bg-blue-500 rounded-md w-32 flex justify-center place-content-center ">
                                 Accepted
                             </div>
-                        </div>
+                        </div> */}
 
-                        <div className="bg-blue-200 w-96 h-64 rounded-lg flex flex-col p-6 justify-between">
+                        {/* <div className="bg-blue-200 w-96 h-64 rounded-lg flex flex-col p-6 justify-between">
                             <div className="flex flex-col gap-5">
                                 <h2 className="text-xl">Headache Medicines</h2>
                             <div>
@@ -190,7 +220,7 @@ const Recents = () =>{
                             <div className="bg-blue-500 rounded-md w-32 flex justify-center place-content-center ">
                                 Accepted
                             </div>
-                        </div>
+                        </div> */}
                         
                         
                     </div>

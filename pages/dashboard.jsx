@@ -103,74 +103,74 @@ const dataNGO = [
     address: "789 Elm St, City, State, ZIP",
   },
 ];
-const dataDonations = [
-  {
-    type: "user",
-    name: "John Doe",
-    address: "123 Main Street",
-    phone: "555-1234",
-    cloth: true,
-    book: false,
-    medicine: true,
-    description:
-      "Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.",
-  },
-  {
-    type: "user",
-    name: "Jane Smith",
-    address: "456 Elm Street",
-    phone: "555-5678",
-    cloth: false,
-    book: true,
-    medicine: false,
-    description:
-      "Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.",
-  },
-  {
-    type: "user",
-    name: "Alice Johnson",
-    address: "789 Oak Street",
-    phone: "555-9012",
-    cloth: true,
-    book: true,
-    medicine: true,
-    description:
-      "Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.",
-  },
-  {
-    type: "user",
-    name: "Alice Johnson",
-    address: "789 Oak Street",
-    phone: "555-9012",
-    cloth: true,
-    book: true,
-    medicine: true,
-    description:
-      "Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.",
-  },
-  {
-    type: "user",
-    name: "Alice Johnson",
-    address: "789 Oak Street",
-    phone: "555-9012",
-    cloth: true,
-    book: true,
-    medicine: true,
-    description:
-      "Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.",
-  },
-  {
-    type: "user",
-    name: "Alice Johnson",
-    address: "789 Oak Street",
-    phone: "555-9012",
-    cloth: true,
-    book: true,
-    medicine: true,
-    description:
-      "Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.",
-  },
-];
+// const dataDonations = [
+//   {
+//     type: "user",
+//     name: "John Doe",
+//     address: "123 Main Street",
+//     phone: "555-1234",
+//     cloth: true,
+//     book: false,
+//     medicine: true,
+//     description:
+//       "Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.",
+//   },
+//   {
+//     type: "user",
+//     name: "Jane Smith",
+//     address: "456 Elm Street",
+//     phone: "555-5678",
+//     cloth: false,
+//     book: true,
+//     medicine: false,
+//     description:
+//       "Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.",
+//   },
+//   {
+//     type: "user",
+//     name: "Alice Johnson",
+//     address: "789 Oak Street",
+//     phone: "555-9012",
+//     cloth: true,
+//     book: true,
+//     medicine: true,
+//     description:
+//       "Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.",
+//   },
+//   {
+//     type: "user",
+//     name: "Alice Johnson",
+//     address: "789 Oak Street",
+//     phone: "555-9012",
+//     cloth: true,
+//     book: true,
+//     medicine: true,
+//     description:
+//       "Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.",
+//   },
+//   {
+//     type: "user",
+//     name: "Alice Johnson",
+//     address: "789 Oak Street",
+//     phone: "555-9012",
+//     cloth: true,
+//     book: true,
+//     medicine: true,
+//     description:
+//       "Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.",
+//   },
+//   {
+//     type: "user",
+//     name: "Alice Johnson",
+//     address: "789 Oak Street",
+//     phone: "555-9012",
+//     cloth: true,
+//     book: true,
+//     medicine: true,
+//     description:
+//       "Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.",
+//   },
+// ];
 
 function generateRandomId() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -184,6 +184,7 @@ function generateRandomId() {
     return randomId;
   }
 const Dashboard = () => {
+  const [donations, setDonations] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [type, setType] = useState('user');
   const [profileData, setProfileData] = useState({
@@ -302,7 +303,7 @@ const Dashboard = () => {
       const userRef = ref(database, `users/${authuser.uid}/donations`)
       formData['id'] = did
       formData['by'] = authuser.uid;
-      formData['staus'] = 'listed';
+      formData['status'] = 'listed';
       formData['to'] = '';
       formData['isAngel'] = false
       console.log(formData)
@@ -342,7 +343,7 @@ const Dashboard = () => {
         </div>
         <div className="bg-white w-[30%] overflow-y-scroll">
           {type === "user" && <Donations data={dataNGO} />}
-          {type === "ngo" && <Ngo data={dataDonations} />}
+          {type === "ngo" && <Ngo type={type} />}
         </div>
       </div>
 
