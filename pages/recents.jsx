@@ -5,6 +5,7 @@ import auth from "@/app/firebase/authConfig";
 import database from "@/app/firebase/databaseConfig";
 import { ref, get } from "firebase/database";
 import Modal from "@/components/Modal";
+import uDonate from "@/public/udonate.png"
 const Recents = () =>{
     const [donationIDs, setDonationIDs] = useState(null);
     const [user, setUser] = useState('');
@@ -76,23 +77,32 @@ const Recents = () =>{
     // }
     return(
         <LoggedInLayout>
-            <div className="bg-gray-400 w-full h-full mb-24">
-                <div className="bg-red-100 text-xl">
-                    Udonate 
-                    {
+            <div className="w-full h-full mb-24">
+                <div className=" text-xl">
+                    <div className="p-16 py-8">
+                        <img className="h-16" src = {uDonate.src}/>
+                    </div>
+                    {/* {
                         donations.filter(item => item.staus==='listed'||item.staus==='accepted').map((data)=>(
                             <h1 key={data.id}>{data.status} {data.id}</h1>
                         ))
-                    }
+                    } */}
                 </div>
-                <div className="bg-green-300">
-                    <h1 className="px-16 py-4 text-2xl">Recent Donations</h1>
-                    <div className="flex gap-10 pb-8 px-16 bg-red-600 overflow-x-auto">
+                <div className="">
+                {   
+                        // console.log(donations.filter(item => item.status === "completed"))
+                        donations.filter(item => item.status === 'listed' || item.status === 'accepted') !== null && (<h1 className="px-16 py-4 text-2xl" >Recent Donation</h1>)
+                    }
+                    {/* <h1 className="px-16 py-4 text-2xl">Recent Donations</h1> */}
+                    <div className="flex gap-10 pb-8 px-16  overflow-x-auto">
                         {
                             donations.filter(item => item.status === 'listed' || item.status === 'accepted').map((donation, index)=>(
-                                <div onClick={()=>openModal(index)} key={donation.id} className="bg-blue-200 w-96 h-64 rounded-lg flex flex-col p-6 justify-between">
+                                <div onClick={()=>openModal(index)} key={donation.id} className="bg-slate-200 w-96 h-64 rounded-lg flex flex-col p-6 justify-between">
                                     <div className="flex flex-col gap-5" >
-                                        <h2 className="text-xl">{donation.ttl} {donation.id} fewr {index}</h2>
+                                        <h2 className="text-xl">
+                                            {donation.ttl} 
+                                        {/* {donation.id} {index} */}
+                                        </h2>
                                         <div className="flex gap-3">
                                             {
                                                 donation.book &&
@@ -126,8 +136,8 @@ const Recents = () =>{
                                             }
                                         </div>
                                         {
-                                            !donation.isAngel &&
-                                            <div className="text-xs bg-fuchsia-600 text-white px-3 py-1 rounded-lg w-fit">
+                                            donation.isAngel &&
+                                            <div className="text-xs bg-fuchsia-500 text-white px-3 py-1 rounded-lg w-fit">
                                                 is Angel
                                             </div>
                                         }
@@ -149,10 +159,10 @@ const Recents = () =>{
                         }
                     </div>
                 </div>
-                <div className="bg-yellow-200">
+                <div className="">
                     {
                         // console.log(donations.filter(item => item.status === "completed"))
-                        donations.filter(item => item.status === 'completed') === null && (<h1 className="px-16 py-4 text-2xl" >Past Donations</h1>)
+                        donations.filter(item => item.status === 'completed') !== null && (<h1 className="px-16 py-4 text-2xl" >Past Donations</h1>)
                     }
                     <div className="flex gap-10 pb-8 px-16">
                     {

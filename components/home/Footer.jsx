@@ -2,7 +2,7 @@ import FootBtn from "./FootBtn";
 import Icon from "./Icon";
 const Footer = ()=>{
     return (
-        <div class = "flex border-t-2 bg-[#FCEDDA]">
+        <div class = "flex border-t-2 bg-white">
         <div class="mx-[184px] m-auto flex justify-between w-full  pt-10">
             <div class="flex justify-between flex-1 py-4">
                 <div class="flex ">

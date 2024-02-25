@@ -2,7 +2,7 @@ import React from "react";
 import GoogleMapReact from 'google-map-react';
 import uDonate from "@/public/udonate.png"
 const AnyReactComponent = ({ text }) => <div style={{color:"red", }}> <div className="bg-red-500">
-    Bazinggga</div> Hello I am a marker {text}</div>;
+    </div> {text}</div>;
 
 export default function Map(){
     const defaultProps = {
@@ -14,8 +14,8 @@ export default function Map(){
     };
 
     const markers = [
-        { id: 1, lat: 10.99835602, lng: 77.01502627, text: "Marker 1" },
-        { id: 2, lat: 10.988, lng: 77.025, text: "Marker 2" },
+        { id: 1, lat: 10.99835602, lng: 77.01502627, text: "NGO" },
+        { id: 2, lat: 10.988, lng: 77.025, text: "User" },
         // Add more markers as needed
       ];
   

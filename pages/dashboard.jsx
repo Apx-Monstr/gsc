@@ -352,18 +352,18 @@ const Dashboard = () => {
 
   return (
     <LoggedInLayout>
-      <div className="bg-red-500 w-full h-full flex">
-        <div className="flex-1 bg-green-500">
+      <div className=" w-full h-full flex">
+        <div className="flex-1 ">
           <Map/>
           {type==="user"&&
           <div className="fixed bottom-28 flex justify-center left-0 w-screen z-50">
-            <button className="bg-red-400 p-8 py-3 rounded-md text-xl z-50" onClick={() => setIsModalOpen(true)}>
+            <button className="bg-primary text-white p-8 py-3 rounded-md text-xl z-50" onClick={() => setIsModalOpen(true)}>
               Donate Now
             </button>
           </div>
           }
         </div>
-        <div className="bg-white w-[30%] overflow-y-scroll">
+        <div className="bg-white w-[30%] overflow-y-scroll mb-20">
           {type === "user" && <Donations data={ngos} />}
           {type === "ngo" && <Ngo type={type} uid = {authuser.uid} username = {profileData['name']}/>}
         </div>

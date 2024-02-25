@@ -90,13 +90,15 @@ const UserProfile = () =>{
     return(
         <LoggedInLayout>
             {/* {user.uid} */}
-            <div className="bg-red-200 w-full overflow-x-hidden min-h-max flex flex-col">
-                <div className="bg-blue-300 w-full h-52 relative">
-                <div className="rounded-full h-36 w-36 bg-red-200 item-left m-32 my-36 z-50 absolute" ></div>
+            <div className=" w-full overflow-x-hidden min-h-max flex flex-col">
+                <div className="bg-primary/80 w-full h-52 relative">
+                <div className={`rounded-full h-36 w-36 bg-primary item-left m-32 my-36 z-50 absolute bg-contain bg-no-repeat` } style={{backgroundImage:`url(${profileData['img']})`}} >
+                    {/* <img src={profileData['img']}/> */}
                 </div>
-                <div className="bg-gray-200 w-full flex-1 flex p-28 gap-8">
-                    <div className="bg-yellow-200 w-34 text-xs flex flex-col gap-2">
-                        <div className="bg-blue-400 text-xl text-center">Name</div>
+                </div>
+                <div className=" w-full flex-1 flex p-28 gap-8">
+                    <div className=" w-34 text-xs flex flex-col gap-2">
+                        <div className=" text-xl text-center">{profileData['name']}</div>
                     <div className="flex gap-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M12 6V12L16 10" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -110,30 +112,30 @@ Last Donated 2 months ago</div>
                         </div>
                         
                     </div>
-                    <div className="bg-black w-0.5"></div>
-                    <div className="bg-green-100 flex-1 p-8">
+                    <div className=" w-0.5"></div>
+                    <div className=" flex-1 p-8">
                         <p className="font-bold text-xl pl-10">User Details</p>
                         <div>
                         <label className="p-10 ">Name :</label>
-                        <input value={profileData['name'] || ''} onChange={e=>profileData['name']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Name"/>
+                        <input value={profileData['name'] || ''} onChange={e=>profileData['name']} type="text" class="text-sm bg-gray-100 rounded-lg w-96 p-2.5 m-2" placeholder="Name"/>
                         </div>
                         <div>
                         <label className="p-10 ">Email :</label>
-                        <input value={profileData['email'] || ''} onChange={e=>profileData['']} type="text" disabled class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Email"/>
+                        <input value={profileData['email'] || ''} onChange={e=>profileData['']} type="text" disabled class="text-sm bg-gray-100 rounded-lg w-96 p-2.5 m-2" placeholder="Email"/>
                         </div>
                         <div>
                         <label className="p-10 ">Address :</label>
-                        <input value={profileData['add'] || ''} onChange={e=>profileData['add']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Address"/>
+                        <input value={profileData['add'] || ''} onChange={e=>profileData['add']} type="text" class="text-sm bg-gray-100 rounded-lg w-96 p-2.5 m-2" placeholder="Address"/>
                         </div>
                         <div>
                         <label className="p-10 ">Mobile No :</label>
-                        <input value={profileData['mno'] || ''} onChange={e=>profileData['mno']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Mobile Number"/>
+                        <input value={profileData['mno'] || ''} onChange={e=>profileData['mno']} type="text" class="text-sm bg-gray-100 rounded-lg w-96 p-2.5 m-2" placeholder="Mobile Number"/>
                         </div>
                         {/* <div>
                         <label className="p-10 ">Phone :</label>
                         <input value={profileData['userSince']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Phone Number"/>
                         </div> */}
-                        <button onClick = {saveData} className={`px-8 py-2 my-4 bg-blue-500 mx-10 rounded-lg `}>
+                        <button onClick = {saveData} className={`px-8 py-2 my-4 bg-primary text-white mx-10 rounded-lg `}>
                             Save
                         </button>
                     </div>

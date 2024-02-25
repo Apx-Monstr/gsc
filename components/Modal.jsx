@@ -5,7 +5,7 @@ import clothImage from "../app/images/cloth.svg";
 import medicineImage from "../app/images/medicine.svg";
 import bookImage from "../app/images/book.svg";
 import location from "../app/images/location.svg";
-import { ref, get, update, push } from "firebase/database";
+import { ref, get, update, push, set } from "firebase/database";
 import database from "@/app/firebase/databaseConfig";
 
 const images = [
@@ -46,17 +46,20 @@ const Modal = ({ isOpen, onClose, selectedNgo, userid, username}) => {
       update(acceptRef, {'acceptedBy':userid});
       if(selectedNgo.status === "listed"){
         update(statusRef, {'status':"accepted"});
+        push(listRef, selectedNgo.id);
+        set(nameRef, {'accName': username})
         console.log("Accepted")
       }else if(selectedNgo.status === "accepted"){
         update(statusRef, {'status':"completed"})
+        .then(()=>{
+          isOpen = false
+        })
       }
-      push(listRef, selectedNgo.id);
-      set(nameRef, {'accName': username})
     }
     catch(err){
       console.log(err)
     }
-    console.log(selectedNgo.by, selectedNgo.staus, selectedNgo.id)
+    console.log(selectedNgo.by, selectedNgo.status, selectedNgo.id)
   }
   if (!isOpen) return null;
   return (
@@ -92,13 +95,30 @@ const Modal = ({ isOpen, onClose, selectedNgo, userid, username}) => {
               </div>
               <p className="mt-2 text-md">{selectedNgo.add}</p>
               {/* <p className="mt-2 text-md">{selectedNgo.address}</p> */}
-              <p className="mt-3 text-xs">{selectedNgo.img}</p>
+              {/* <p className="mt-3 text-xs">{selectedNgo.img}</p> */}
               <p className="mt-3 text-xs">{selectedNgo.desc}</p>
               <div className="absolute bottom-4 left-0 w-full text-center">
-                <button onClick={acceptDonation} className="bg-red-600 text-white w-[80%] px-4 py-3 rounded-lg">
-                  {/* {selectedNgo.status === "listed" ? Accept : Complete } */}
-                  Accept
-                </button>
+                {
+                  selectedNgo.status === "listed" &&
+                  <button onClick={acceptDonation} className="bg-primary text-white w-[80%] px-4 py-3 rounded-lg">
+                    {/* {selectedNgo.status === "listed" ? Accept : Complete } */}
+                    Accept
+                  </button>
+                }
+                {
+                  selectedNgo.status === "accepted" &&
+                  <button onClick={acceptDonation} className="bg-primary text-white w-[80%] px-4 py-3 rounded-lg">
+                    {/* {selectedNgo.status === "listed" ? Accept : Complete } */}
+                    Complete
+                  </button>
+                }
+                {
+                  selectedNgo.status === "completed" &&
+                  <button disabled className="bg-primary text-white w-[80%] px-4 py-3 rounded-lg">
+                    {/* {selectedNgo.status === "listed" ? Accept : Complete } */}
+                    Donation Completed
+                  </button>
+                }
               </div>
             </div>
           </div>

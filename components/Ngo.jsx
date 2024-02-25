@@ -16,7 +16,9 @@ const Ngo = ({ type, uid }) => {
           get(donationsRef)
           .then((res)=>{
             console.log(res.val());
-            setDonations(Object.values(res.val()));
+            let data = Object.values(res.val());
+            data = data.filter(doantion => doantion.status === 'listed')
+            setDonations(data);
           })
         }
         catch (error){
@@ -32,6 +34,7 @@ const Ngo = ({ type, uid }) => {
 
   const openModal = (index) => {
     setSelectedNgo(data[index]); // Pass the user data associated with the selected index
+    console.log("sadfs",data[index])
     setShowModal(true);
   };
 
@@ -43,7 +46,7 @@ const Ngo = ({ type, uid }) => {
     <>
       <h1 className="pt-7 text-4xl px-8">Donations</h1>
       <div className="flex flex-col gap-4 p-7">
-        {data.filter(doantion => doantion.status === 'listed').map((user, index) => (
+        {data.map((user, index) => (
           <div key={index} className="bg-gray-200 px-5 pt-5 pb-4 rounded-xl">
             <h2 className="text-2xl font-medium">{user.ttl}</h2>
             <div className="flex items-center gap-2 mt-2">
