@@ -1,14 +1,17 @@
 import React from 'react';
 import NavBtn from './NavBtn';
+import Icon from './Icon';
 const Header = () => {
   return (
-    <div class = "z-10 h-[100px] px-[184px] py-[18px] w-full fixed top-0 left-0 flex flex-row pop">
-        <div class="flex flex-1 justify-between px-[16px] bg-white rounded-lg mx-4">
+    <div class = " z-10 h-[100px] px-[184px] py-[18px] w-full fixed top-8 left-0 flex flex-row pop">
+        <div class="flex flex-1 justify-between px-[16px] bg-[#FCEDDA]  rounded-lg">
             <div class="flex gap-[12px] items-center h-full ">
                 <NavBtn title="For Charities"/>
                 <NavBtn title = "For Individuals"/>
             </div>
-            {/* <Icon/> */}
+            <div className="flex h-full items-center">
+                <Icon classes="h-12"/>
+            </div>
             <div  class="flex gap-[12px] h-full items-center ">
                 <NavBtn title = "How it works"/>
                 <NavBtn title = "Sign In"/>
