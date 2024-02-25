@@ -4,6 +4,7 @@ import previous from "../app/images/previous.svg";
 import { useState } from "react";
 
 const Slider = ({ slides }) => {
+  console.log("sdajfksnajk",slides)
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const handleScroll = (e) => {
@@ -47,7 +48,7 @@ const Slider = ({ slides }) => {
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
         >
           {slides.map((slide, index) => (
-            <div key={index} className="h-full w-full min-w-full rounded-md" style={{ backgroundImage: `url(${slide.url})`, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
+            <div key={index} className="h-full w-full min-w-full rounded-md" style={{ backgroundImage: `url(${slide})`, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
               <div className="h-full flex items-end">
                 <div className="p-2 text-mwhite mb-12">
                   <div className="text-7xl pop mb-4">{slide.text}</div>

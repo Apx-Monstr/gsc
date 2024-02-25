@@ -4,13 +4,13 @@ import LoggedInLayout from "@/app/layouts/loggedin";
 import auth from "@/app/firebase/authConfig";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { get, ref } from "firebase/database";
+import { get, ref, update } from "firebase/database";
 import database from "@/app/firebase/databaseConfig";
 import firebase from "firebase/app";
 import { onAuthStateChanged } from "firebase/auth";
 const UserProfile = () =>{
     // const [user, setUID] = useState(null);
-    // const [type, setType] = useState(null);
+    const [type, setType] = useState(null);
     const [authuser, setUser] = useState(null);
     const [profileData, setProfileData] = useState({
         name: "User Name",
@@ -23,30 +23,41 @@ const UserProfile = () =>{
         type: 'user',
         loc: ['', '']
     });
-    function ProfileData(){
-        const userLoggedIn = Boolean(authuser);
-        if(userLoggedIn){
-            const userProfileRef = ref(database, `users/${authuser.uid}`);
-            get(userProfileRef)
-            .then((res)=>{
-                setProfileData(res.val());
-                // console.log(profileData)
-            })
-        }
-    }
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-          // My method
-          if(user){
-              console.log("User Signed In");
-              setUser(user)
+            // My method
+            if(user){
+                console.log("User Signed In");
+                setUser(user);
+                const userProfileRef = ref(database, `users/${user.uid}`);
+            get(userProfileRef)
+            .then((res)=>{
+                const data = res.val()
+                setProfileData(data);
+                setType(res.val()['type'])
+                // console.log(data);
+            })
           }
         });
-    
+  
         // Just return the unsubscribe function.  React will call it when it's
         // no longer needed.
         return unsubscribe;
-      }, []);
+    }, []);
+
+    // useEffect(() => {
+    //     const unsubscribe = onAuthStateChanged(auth, (user) => {
+    //       // My method
+    //       if(user){
+    //           console.log("User Signed In");
+    //           setUser(user)
+    //       }
+    //     });
+    
+    //     // Just return the unsubscribe function.  React will call it when it's
+    //     // no longer needed.
+    //     return unsubscribe;
+    //   }, []);
     // function Check() { 
     //     auth.onAuthStateChanged((user) => { 
     //         if (user) { 
@@ -60,18 +71,26 @@ const UserProfile = () =>{
     //     }); 
     // }
     // Check();
-    ProfileData();
+    // ProfileData();
     if (!authuser){
         return (
             <div className="flex text-center w-full">
                 Checking Authentication!!! Redirecting
             </div>
         )
-    }
+    };
+    function saveData(){
+        const nameref = ref(database, `users/${authuser.uid}/name`);
+        const mnoref = ref(database, `users/${authuser.uid}/mno`);
+        const addref = ref(database, `users/${authuser.uid}/add`);
+        update(nameref, profileData['name'])
+        update(mnoref, profileData['mno'])
+        update(addref, profileData['add'])
+    };
     return(
         <LoggedInLayout>
             {/* {user.uid} */}
-            <div className="bg-red-200 w-full h-full flex flex-col">
+            <div className="bg-red-200 w-full overflow-x-hidden min-h-max flex flex-col">
                 <div className="bg-blue-300 w-full h-52 relative">
                 <div className="rounded-full h-36 w-36 bg-red-200 item-left m-32 my-36 z-50 absolute" ></div>
                 </div>
@@ -92,28 +111,31 @@ Last Donated 2 months ago</div>
                         
                     </div>
                     <div className="bg-black w-0.5"></div>
-                    <div className="bg-green-100 flex-1 ">
+                    <div className="bg-green-100 flex-1 p-8">
                         <p className="font-bold text-xl pl-10">User Details</p>
                         <div>
                         <label className="p-10 ">Name :</label>
-                        <input value={profileData['name']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Name"/>
+                        <input value={profileData['name'] || ''} onChange={e=>profileData['name']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Name"/>
                         </div>
                         <div>
                         <label className="p-10 ">Email :</label>
-                        <input value={profileData['email']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Email"/>
+                        <input value={profileData['email'] || ''} onChange={e=>profileData['']} type="text" disabled class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Email"/>
                         </div>
                         <div>
                         <label className="p-10 ">Address :</label>
-                        <input value={profileData['add']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Gender"/>
+                        <input value={profileData['add'] || ''} onChange={e=>profileData['add']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Address"/>
                         </div>
                         <div>
                         <label className="p-10 ">Mobile No :</label>
-                        <input value={profileData['mno']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="DOB"/>
+                        <input value={profileData['mno'] || ''} onChange={e=>profileData['mno']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Mobile Number"/>
                         </div>
-                        <div>
+                        {/* <div>
                         <label className="p-10 ">Phone :</label>
                         <input value={profileData['userSince']} type="text" class="text-sm rounded-lg w-96 p-2.5 m-2" placeholder="Phone Number"/>
-                        </div>
+                        </div> */}
+                        <button onClick = {saveData} className={`px-8 py-2 my-4 bg-blue-500 mx-10 rounded-lg `}>
+                            Save
+                        </button>
                     </div>
                 </div>
             </div>

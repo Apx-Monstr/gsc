@@ -11,6 +11,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import firebase from "firebase/app";
 import storage from "@/app/firebase/storageconfig";
 import {ref as sref, uploadBytes, getDownloadURL} from "firebase/storage";
+import Map from "@/components/Map";
 // import { storage, ref as storageRef, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 // const type = "user";
 const dataNGO = [
@@ -187,6 +188,7 @@ const Dashboard = () => {
   const [donations, setDonations] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [type, setType] = useState('user');
+  const [ngos, setNGOs] = useState([]);
   const [profileData, setProfileData] = useState({
     // address: "",
     // email: "",
@@ -222,18 +224,32 @@ const Dashboard = () => {
               const data = res.val()
               setProfileData(data);
               setType(res.val()['type'])
-              // console.log(data);
+              console.log(data);
               setFormData({
-                  ttl: data['email'],
+                  ttl: '',
                   mno: data['mno'],
                   med: false,
                   book: false,
                   clh: false,
-                  desc: data['email'],
+                  desc: '',
                   add: data['add'],
                   img: [],
               })
-          })
+              return type
+          }).then(
+            (type)=>{
+              if (type == 'user'){
+                const userRef = ref(database, `users`);
+                get(userRef)
+                .then((res)=>{
+                  let data = res.val();
+                  data = Object.values(data).filter(item => item.type === "ngo");
+                  console.log(data)
+                  setNGOs(data)
+                })
+              }
+            }
+          )
         }
       });
 
@@ -272,21 +288,22 @@ const Dashboard = () => {
         
       }).then((downloadURL) => {
         console.log("File Uploaded Successfully. Download URL:", downloadURL);
-        imgnames.push({
-          fname: fname,
-          url: downloadURL,
-        });
+        // imgnames.push({
+        //   fname: fname,
+        //   url: downloadURL,
+        // });
+        imgnames.push(downloadURL);
         formData['img'] = imgnames;
         console.log(formData['img'])
         uploadFormData();
         setIsModalOpen(false);
         setFormData({
-          ttl: profileData['email'],
+          ttl: '',
           mno: profileData['mno'],
           med: false,
           book: false,
           clh: false,
-          desc: profileData['email'],
+          desc: '',
           add: profileData['add'],
           img: [],
         });
@@ -337,13 +354,18 @@ const Dashboard = () => {
     <LoggedInLayout>
       <div className="bg-red-500 w-full h-full flex">
         <div className="flex-1 bg-green-500">
-          {type==="user"&&<button className="bg-red-400" onClick={() => setIsModalOpen(true)}>
-            donate now
-          </button>}
+          <Map/>
+          {type==="user"&&
+          <div className="fixed bottom-28 flex justify-center left-0 w-screen z-50">
+            <button className="bg-red-400 p-8 py-3 rounded-md text-xl z-50" onClick={() => setIsModalOpen(true)}>
+              Donate Now
+            </button>
+          </div>
+          }
         </div>
         <div className="bg-white w-[30%] overflow-y-scroll">
-          {type === "user" && <Donations data={dataNGO} />}
-          {type === "ngo" && <Ngo type={type} />}
+          {type === "user" && <Donations data={ngos} />}
+          {type === "ngo" && <Ngo type={type} uid = {authuser.uid} username = {profileData['name']}/>}
         </div>
       </div>
 

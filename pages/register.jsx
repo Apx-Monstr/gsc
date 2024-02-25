@@ -8,7 +8,7 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged, fetchSignInMethodsForEmail, GoogleAuthProvider, signInWithPopup, getAdditionalUserInfo } from "firebase/auth";
 import auth from "@/app/firebase/authConfig";
 // import firebase from "firebase"
-import { ref, set } from "firebase/database";
+import { push, ref, set } from "firebase/database";
 import database from "@/app/firebase/databaseConfig";
 
 const Register = () =>{
@@ -37,6 +37,7 @@ const Register = () =>{
                             loc: ['', '']
                         });
                     } else if (userType === 'ngo') {
+                        const updateNGOref = ref(database, `ngos`);
                         set(userProfileRef, {
                             name: "NGO Name",
                             add: '',
@@ -53,6 +54,7 @@ const Register = () =>{
                             twtr: '',
                             loc: ['', '']
                         });
+                        push(updateNGOref, res.user.uid);
                     }
                     console.log("User registered successfully with Google");
                 }
@@ -78,31 +80,31 @@ const Register = () =>{
                     if (userType === 'user'){
                         set(userProfileRef, {
                             name: "User Name",
-                            address:'',
-                            mobNo:'',
-                            donation:[],
-                            userSince:date,
-                            lastDonated:'',
-                            email: email,
-                            type:userType,
-                            location:['','']
+                            add: '',
+                            mno: '',
+                            donations: [],
+                            userSince: date,
+                            lastDonated: '',
+                            email: res.user.email,
+                            type: userType,
+                            loc: ['', '']
                         });
                     }else if(userType === 'ngo'){
                         set(userProfileRef, {
                             name: "NGO Name",
-                            address:'',
-                            mobNo:'',
-                            donation:[],
-                            userSince:date,
-                            lastAccepted:'',
-                            email: email,
-                            type:userType,
-                            image:'',
-                            bgImg:'',
-                            insta:'',
-                            wp:'',
-                            twitter:'',
-                            location:['','']
+                            add: '',
+                            mno: '',
+                            donations: [],
+                            userSince: date,
+                            lastAccepted: '',
+                            email: res.user.email,
+                            type: userType,
+                            img: '',
+                            bgImg: '',
+                            insta: '',
+                            wp: '',
+                            twtr: '',
+                            loc: ['', '']
                         });
                     }
                     console.log("User registered successfully");

@@ -25,7 +25,7 @@ const Donations = ({ data }) => {
             >
               <div className="flex items-center">
                 <img
-                  src={item.image}
+                  src={item.img}
                   alt={item.name}
                   className="h-10 w-10 mr-2 rounded-full"
                 />
@@ -43,11 +43,11 @@ const Donations = ({ data }) => {
               <div className="mt-7 px-2">
                 <div className="flex">
                   <img className="size-6 mr-2" src={locationb.src} alt="" />
-                  <p className="text-gray-400"> {item.address}</p>
+                  <p className="text-gray-400"> {item.add}</p>
                 </div>
                 <div className="flex mt-3">
                   <img className="size-6 mr-2" src={call.src} alt="" />
-                  <p className="text-gray-400"> {item.phone}</p>
+                  <p className="text-gray-400"> {item.mno}</p>
                 </div>
               </div>
             )}

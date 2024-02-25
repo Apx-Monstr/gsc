@@ -6,7 +6,7 @@ import location from "../app/images/location.svg";
 import Modal from "./Modal";
 import { ref, get } from "firebase/database";
 import database from "@/app/firebase/databaseConfig";
-const Ngo = ({ type }) => {
+const Ngo = ({ type, uid }) => {
   const [data, setDonations] = useState([])
   useEffect(()=>{
     const fetchDonations = async ()=>{
@@ -43,11 +43,11 @@ const Ngo = ({ type }) => {
     <>
       <h1 className="pt-7 text-4xl px-8">Donations</h1>
       <div className="flex flex-col gap-4 p-7">
-        {data.map((user, index) => (
+        {data.filter(doantion => doantion.status === 'listed').map((user, index) => (
           <div key={index} className="bg-gray-200 px-5 pt-5 pb-4 rounded-xl">
-            <h2 className="text-2xl font-medium">{user.name}</h2>
+            <h2 className="text-2xl font-medium">{user.ttl}</h2>
             <div className="flex items-center gap-2 mt-2">
-              {user.medicine && (
+              {user.med && (
                 <img
                   className="h-5 w-5"
                   src={medicineImage.src}
@@ -57,12 +57,12 @@ const Ngo = ({ type }) => {
               {user.book && (
                 <img src={bookImage.src} alt="Book" className="h-5 w-5" />
               )}
-              {user.cloth && (
+              {user.clh && (
                 <img src={clothImage.src} alt="Cloth" className="h-5 w-5" />
               )}
             </div>
-            <p className="mt-2 text-md">{user.address}</p>
-            <p className=" mt-3 text-xs">{user.phone}</p>
+            <p className="mt-2 text-md">{user.add}</p>
+            <p className=" mt-3 text-xs">{user.mno}</p>
             <div className="flex flex-row gap-3 pt-6">
               <img src={location.src} alt="" />
               <button
@@ -79,6 +79,7 @@ const Ngo = ({ type }) => {
         isOpen={showModal}
         onClose={closeModal}
         selectedNgo={selectedNgo}
+        userid = {uid}
       />
     </>
   );

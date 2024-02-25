@@ -1,10 +1,10 @@
-import Sample from "@/components/sample";
+// import Sample from "@/components/sample";
 
 export default function Home(){
   return (
     <div>
       Hello from home
-      <Sample/>
+      {/* <Sample/> */}
     </div>
   )
 }
