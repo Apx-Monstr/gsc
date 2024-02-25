@@ -15,7 +15,7 @@ const Donations = ({ data }) => {
 
   return (
     <>
-      <h1 className="pt-7 text-4xl px-8">NGO's</h1>
+      <h1 className="pt-7 text-4xl px-8">NGO &apos; s</h1>
       <div className="flex flex-col gap-4 p-7">
         {data.map((item, index) => (
           <div key={index} className="bg-gray-200 p-4 rounded-lg">

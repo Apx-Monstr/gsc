@@ -61,7 +61,7 @@ const Slider = ({ slides }) => {
         <div className="absolute bottom-3 w-full mb-6 z-20">
         <div className=" mx-auto w-fit flex gap-4">
           {slides.map((slide, index) => (
-            <div
+            <div key={index}
               className={`h-2 cursor-pointer w-10 rounded ${
                 currentSlide === index ? "bg-white" : "bg-white w-2 opacity-50"
               }`}
