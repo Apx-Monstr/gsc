@@ -118,3 +118,6 @@ NextJS: Extends ReactJS, providing SSR, handling authentication, data operations
 - [Neelesh Ranjan](https://github.com/Apx-Monstr)
 - [Tanesha Gahtori](https://github.com/taneshagahtori)
 - [Kartik Mishra](https://github.com/hacker-KM)
+
+## Notice
+Firebase API is included within the project, for the sole purpose of testing the platform on the development side by GSC team. 
